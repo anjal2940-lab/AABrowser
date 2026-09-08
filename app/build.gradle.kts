@@ -1,4 +1,3 @@
-
 import java.util.Properties
 import java.io.File
 import com.android.build.api.artifact.SingleArtifact
@@ -12,16 +11,22 @@ plugins {
 
 android {
     namespace = "com.kododake.aabrowser"
-    compileSdk = 35 // Lowered compileSdk to align with standard toolchains
+    compileSdk = 37 // Required for AndroidX Activity 1.13+ and Navigation3 dependencies
 
     defaultConfig {
         applicationId = "com.kododake.aabrowser"
-        minSdk = 31 // <-- Changed from 35 to 31 for Android 12 support
-        targetSdk = 35
+        minSdk = 30    // Minimum support set to Android 11+
+        targetSdk = 37 // Target API set to latest
         versionCode = 8
         versionName = "2.2"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    packaging {
+        resources {
+            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+        }
     }
 
     signingConfigs {
@@ -57,10 +62,9 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17 // Lowered to JDK 17 for better Gradle compatibility
+        sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
-
 
     buildFeatures {
         viewBinding = true
